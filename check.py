@@ -1,6 +1,6 @@
 import ssl
 import socket
-from datetime import datetime
+from datetime import datetime, timezone
 import click
 
 def get_cert_expiry(hostname, port=443):
@@ -30,7 +30,7 @@ def check_certificate(domains, days, file):
     for domain in domains:
         try:
             expiry_date = get_cert_expiry(domain)
-            days_until_expiry = (expiry_date - datetime.now(datetime.timezone.utc)).days
+            days_until_expiry = (expiry_date - datetime.now()).days
             domain_info.append((domain, expiry_date, days_until_expiry))
         except Exception as e:
             print(f'Error checking certificate for {domain}: {e}')
